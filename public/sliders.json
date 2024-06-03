@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "title": "Life-Saving Surgery",
+    "description": "A successful surgery performed at our camp saved the life of a young boy. His recovery has been an inspiration to many.",
+    "image": "https://i.ibb.co/WkSkRYP/slider-1.jpg",
+    "altText": "Life-Saving Surgery"
+  },
+  {
+    "id": 2,
+    "title": "Community Health Fair",
+    "description": "Our medical camp brought together the local community for a day of health screenings and educational sessions, improving awareness and health outcomes.",
+    "image": "https://i.ibb.co/7Kf08zZ/slider-2.jpg",
+    "altText": "Community Health Fair"
+  },
+  {
+    "id": 3,
+    "title": "Vaccination Drive",
+    "description": "A large-scale vaccination drive conducted at our camp protected hundreds of children from preventable diseases.",
+    "image": "https://i.ibb.co/G3C4Xvp/slider-4.jpg",
+    "altText": "Vaccination Drive"
+  },
+  {
+    "id": 4,
+    "title": "Dental Care Outreach",
+    "description": "Our dental care team provided free check-ups and treatments, ensuring better oral health for the underserved community.",
+    "image": "https://i.ibb.co/XbyykSm/slider-3.jpg",
+    "altText": "Dental Care Outreach"
+  },
+  {
+    "id": 5,
+    "title": "Mental Health Support",
+    "description": "Mental health professionals at our camp offered counseling sessions, providing much-needed support to those in need.",
+    "image": "https://i.ibb.co/v14xGwR/slider-5.jpg",
+    "altText": "Mental Health Support"
+  }
+]

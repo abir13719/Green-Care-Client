@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------- */
+/*            Navbar           */
+/* --------------------------- */
+nav .active {
+  text-decoration: underline;
+  margin: 0 4px 0 4px;
+  padding: 12px;
+  background-color: black;
+  text-underline-offset: 4px;
+  color: white;
+}

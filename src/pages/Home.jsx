@@ -6,12 +6,12 @@ import HowItWork from "../components/HowItWork";
 
 const Home = () => {
   return (
-    <div className="pt-[76px]">
+    <section className="pt-[76px]">
       <Banner></Banner>
       <PopularCamps></PopularCamps>
       <Feedback></Feedback>
       <HowItWork></HowItWork>
-    </div>
+    </section>
   );
 };
 

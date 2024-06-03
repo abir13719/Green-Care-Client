@@ -73,7 +73,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-gradient-to-r from-slate-700 to-slate-500 py-4 fixed left-0 right-0 z-20">
+    <nav className="bg-gray-100 shadow-lg py-4 fixed left-0 right-0 z-20">
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Part */}
         <div className="flex items-center">

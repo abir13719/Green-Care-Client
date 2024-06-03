@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 
 const AllCamps = () => {
   return (
-    <div className="bg-green-300">
+    <section className="bg-green-300">
       <div className="pt-20 h-screen flex flex-col items-center">
         <h1 className="text-5xl font-bold">This will be All Camps</h1>
         <p className="text-center">
@@ -65,7 +65,7 @@ const AllCamps = () => {
           layout.
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 

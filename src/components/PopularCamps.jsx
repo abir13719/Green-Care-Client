@@ -3,7 +3,7 @@ import CampsCard from "./CampsCard";
 
 const PopularCamps = () => {
   return (
-    <div className="bg-green-300 py-2">
+    <section className="bg-green-300 py-2">
       <div className="container mx-auto flex flex-col items-center">
         <h1 className="text-5xl font-bold">This will be Popular Camps</h1>
         <p className="text-center">
@@ -31,7 +31,7 @@ const PopularCamps = () => {
           <CampsCard></CampsCard>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,16 +1,75 @@
 import React from "react";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="bg-green-200">
-      <div className="container mx-auto h-[50vh] flex flex-col items-center justify-center">
-        <h1 className="text-5xl font-bold">This will be Footer</h1>
-        <p className="text-center">
-          Add a Footer to provide essential links, contact information, or quick
-          access to other parts of the web app.
-        </p>
+    <footer className="bg-teal-900 text-white py-10">
+      <div className="container mx-auto px-4 md:flex md:justify-between">
+        {/* About Section */}
+        <div className="mb-6 md:mb-0 md:w-1/3">
+          <h3 className="text-xl font-bold mb-2">About Us</h3>
+          <p className="">
+            We are dedicated to providing top-notch medical camps and wellness
+            programs to improve the health and well-being of our community.
+          </p>
+        </div>
+
+        {/* Links Section */}
+        <div className="mb-6 md:mb-0 md:w-1/3">
+          <h3 className="text-xl font-bold mb-2">Quick Links</h3>
+          <ul>
+            <li className="mb-1">
+              <Link to="/" className="hover:text-gray-400">
+                Home
+              </Link>
+            </li>
+            <li className="mb-1">
+              <Link to="/available-camps" className="hover:text-gray-400">
+                Available Camps
+              </Link>
+            </li>
+            <li className="mb-1">
+              <Link to="dashboard" className=" hover:text-gray-400">
+                Dashboard
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Contact Section */}
+        <div className="md:w-1/3">
+          <h3 className="text-xl font-bold mb-2">Contact Us</h3>
+          <p className="">
+            Email: greencare@medicalcamps.com
+            <br />
+            Phone: +1 234 567 890
+          </p>
+          <div className="flex space-x-4 mt-4">
+            <Link to="#" className=" hover:text-gray-400">
+              <FaFacebookF />
+            </Link>
+            <Link to="#" className=" hover:text-gray-400">
+              <FaTwitter />
+            </Link>
+            <Link to="#" className=" hover:text-gray-400">
+              <FaInstagram />
+            </Link>
+            <Link to="#" className=" hover:text-gray-400">
+              <FaLinkedinIn />
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+      <div className="text-center text-white mt-8">
+        &copy; 2024 Medical Camps. All rights reserved.
+      </div>
+    </footer>
   );
 };
 

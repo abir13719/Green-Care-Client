@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle, FaHome } from "react-icons/fa";
 import { GoChecklist } from "react-icons/go";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -30,6 +31,7 @@ const schema = yup.object().shape({
 });
 
 const SignUp = () => {
+  const { user, createUser } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -56,16 +58,21 @@ const SignUp = () => {
           },
         }
       );
+
       const imageUrl = imgbbRes.data.data.display_url;
 
+      const userCredential = await createUser(data.email, data.password);
+      const user = userCredential.user;
+
       const userData = {
+        uid: user.uid,
         name: data.name,
         email: data.email,
         profilePicture: imageUrl,
       };
 
       await axios.post("http://localhost:5000/users", userData);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error(error);
       setError("apiError", {

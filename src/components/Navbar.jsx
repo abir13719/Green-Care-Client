@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { HiUserCircle, HiMenu } from "react-icons/hi";
 import { IoMdLogOut } from "react-icons/io";
 import logo from "../assets/logo.webp";
@@ -10,8 +10,11 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
+  const { logoutUser } = useAuth();
+  const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
@@ -26,7 +29,9 @@ const Navbar = () => {
   };
 
   const logout = () => {
-    // Your logout function here
+    logoutUser().then(() => {
+      navigate("/");
+    });
   };
 
   useEffect(() => {

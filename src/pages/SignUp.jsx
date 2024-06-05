@@ -7,14 +7,16 @@ import { FaGoogle, FaHome } from "react-icons/fa";
 import { GoChecklist } from "react-icons/go";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import usePublicAxios from "../hooks/usePublicAxios";
+import Swal from "sweetalert2";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
   profilePicture: yup
     .mixed()
     .test("required", "Profile picture is required", (value) => {
@@ -33,6 +35,7 @@ const schema = yup.object().shape({
 });
 
 const SignUp = () => {
+  const publicAxios = usePublicAxios();
   const { user, createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
   const {
@@ -60,12 +63,10 @@ const SignUp = () => {
           },
         }
       );
-
       const imageUrl = imgbbRes.data.data.display_url;
 
       const userCredential = await createUser(data.email, data.password);
       const user = userCredential.user;
-
       await updateUserProfile(user, data.name, imageUrl);
 
       const userData = {
@@ -75,7 +76,11 @@ const SignUp = () => {
         profilePicture: imageUrl,
       };
 
-      await axios.post("http://localhost:5000/users", userData);
+      await publicAxios.post("/users", userData);
+      Swal.fire({
+        title: "Registration Success",
+        icon: "success",
+      });
       navigate("/");
     } catch (error) {
       console.error(error);

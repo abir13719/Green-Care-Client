@@ -14,6 +14,7 @@ import RegisteredCamps from "../pages/Dashboard/UserPanel/RegisteredCamps";
 import PaymentHistory from "../pages/Dashboard/UserPanel/PaymentHistory";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
+import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +45,11 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoutes>
+        <Dashboard></Dashboard>
+      </PrivateRoutes>
+    ),
     children: [
       // Admin Routes
       {

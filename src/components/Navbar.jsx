@@ -13,7 +13,7 @@ import { MdDashboard } from "react-icons/md";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const { user, logoutUser } = useAuth();
+  const { user, logoutUser, loading } = useAuth();
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -76,6 +76,14 @@ const Navbar = () => {
       </li>
     </>
   );
+
+  if (loading) {
+    return (
+      <div className="flex justify-end items-center h-20 container  mx-auto p-5">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
 
   return (
     <nav className="bg-gray-100 shadow-lg py-4 fixed left-0 right-0 z-20">

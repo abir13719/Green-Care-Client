@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,6 +5,7 @@ import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle, FaHome } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
+import { useAuth } from "../contexts/AuthContext";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -16,6 +16,7 @@ const schema = yup.object().shape({
 });
 
 const Login = () => {
+  const { loginUser } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -27,7 +28,8 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    // Handle login logic
+    loginUser(data.email, data.password);
+    navigate("/");
   };
 
   const handleGoogleLogin = () => {

@@ -13,7 +13,7 @@ import { MdDashboard } from "react-icons/md";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const { logoutUser } = useAuth();
+  const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -95,40 +95,54 @@ const Navbar = () => {
 
         {/* Right Part */}
         <div className="flex items-center">
-          <Link
-            to="/login"
-            className="mr-4 bg-green-500 p-3 mx-1 rounded-md font-medium flex items-center gap-1"
-          >
-            <FaSignInAlt></FaSignInAlt>
-            Join Us
-          </Link>
-          <div ref={userMenuRef} className="relative">
-            <button className="mr-4 menu-toggle" onClick={toggleUserMenu}>
-              <HiUserCircle className="inline-block mr-1" size={40} />
-            </button>
-            {/* User Menu */}
-            <div
-              className={`absolute top-14 right-0 bg-black shadow-md p-4 w-40 space-y-1 rounded-md ${
-                isUserMenuOpen ? "block" : "hidden"
-              }`}
-            >
-              <p className="text-lg text-white">Username</p>
-              <Link
-                to="dashboard"
-                className="bg-green-500 text-white w-full p-3 rounded-md flex items-center gap-1"
-              >
-                <MdDashboard></MdDashboard>
-                Dashboard
-              </Link>
-              <button
-                className="bg-red-500 text-white w-full p-3 rounded-md flex items-center gap-1"
-                onClick={logout}
-              >
-                <FaSignOutAlt></FaSignOutAlt>
-                Logout
+          {user ? (
+            <div ref={userMenuRef} className="relative">
+              <button className="mr-4 menu-toggle" onClick={toggleUserMenu}>
+                {user.photoURL ? (
+                  <>
+                    <div>
+                      <img
+                        className="h-12 w-12 rounded-full mt-1"
+                        src={user.photoURL}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <HiUserCircle className="inline-block mr-1" size={40} />
+                )}
               </button>
+              {/* User Menu */}
+              <div
+                className={`absolute top-14 right-0 bg-black shadow-md p-4 w-40 space-y-1 rounded-md ${
+                  isUserMenuOpen ? "block" : "hidden"
+                }`}
+              >
+                <p className="text-lg text-white">{user?.displayName}</p>
+                <Link
+                  to="dashboard"
+                  className="bg-green-500 text-white w-full p-3 rounded-md flex items-center gap-1"
+                >
+                  <MdDashboard></MdDashboard>
+                  Dashboard
+                </Link>
+                <button
+                  className="bg-red-500 text-white w-full p-3 rounded-md flex items-center gap-1"
+                  onClick={logout}
+                >
+                  <FaSignOutAlt></FaSignOutAlt>
+                  Logout
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <Link
+              to="/login"
+              className="mr-4 bg-green-500 p-3 mx-1 rounded-md font-medium flex items-center gap-1"
+            >
+              <FaSignInAlt></FaSignInAlt>
+              Join Us
+            </Link>
+          )}
 
           <button className="sm:hidden menu-toggle" onClick={toggleMobileMenu}>
             <HiMenu className="inline-block" size={24} />

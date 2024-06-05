@@ -17,21 +17,23 @@ const schema = yup.object().shape({
     .required("Password is required"),
   profilePicture: yup
     .mixed()
-    .required("Profile picture is required")
+    .test("required", "Profile picture is required", (value) => {
+      return value && value.length > 0;
+    })
     .test("fileSize", "The file is too large", (value) => {
-      return value && value[0] && value[0].size <= 2 * 1024 * 1024;
+      return value && value.length > 0 && value[0].size <= 2 * 1024 * 1024;
     })
     .test("fileType", "Unsupported File Format", (value) => {
       return (
         value &&
-        value[0] &&
+        value.length > 0 &&
         ["image/jpeg", "image/png", "image/gif"].includes(value[0].type)
       );
     }),
 });
 
 const SignUp = () => {
-  const { user, createUser } = useAuth();
+  const { user, createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -63,6 +65,8 @@ const SignUp = () => {
 
       const userCredential = await createUser(data.email, data.password);
       const user = userCredential.user;
+
+      await updateUserProfile(user, data.name, imageUrl);
 
       const userData = {
         uid: user.uid,

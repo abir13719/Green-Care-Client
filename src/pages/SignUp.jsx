@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import { FaGoogle, FaHome } from "react-icons/fa";
 import { GoChecklist } from "react-icons/go";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import usePublicAxios from "../hooks/usePublicAxios";
 import Swal from "sweetalert2";
+import SocialLogin from "../components/SocialLogin";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -90,10 +90,6 @@ const SignUp = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    // Handle Google login logic
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md p-6 md:p-10 bg-gray-900 text-white rounded my-10">
@@ -155,19 +151,8 @@ const SignUp = () => {
 
         <hr className="border mt-10 border-gray-500" />
 
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full mt-4 p-3 font-medium bg-green-500 rounded flex items-center gap-1 justify-center text-black"
-        >
-          <FaGoogle></FaGoogle> Register with Google
-        </button>
-        <button
-          onClick={() => navigate("/")}
-          className="w-full mt-4 p-3 font-medium bg-green-500 rounded flex items-center gap-1 justify-center text-black"
-        >
-          <FaHome className="w-5 h-5"></FaHome>
-          Home
-        </button>
+        <SocialLogin></SocialLogin>
+
         <p className="mt-4">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-600">

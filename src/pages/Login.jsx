@@ -3,17 +3,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaGoogle, FaHome } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
 import { useAuth } from "../contexts/AuthContext";
 import Swal from "sweetalert2";
+import SocialLogin from "../components/SocialLogin";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
 });
 
 const Login = () => {
@@ -38,10 +38,6 @@ const Login = () => {
       });
       navigate(from, { replace: true });
     });
-  };
-
-  const handleGoogleLogin = () => {
-    // Handle Google login logic
   };
 
   return (
@@ -81,19 +77,8 @@ const Login = () => {
 
         <hr className="border mt-10 border-gray-500" />
 
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full mt-4 p-3 font-medium bg-green-500 rounded flex items-center gap-1 justify-center text-black"
-        >
-          <FaGoogle></FaGoogle> Login with Google
-        </button>
-        <button
-          onClick={() => navigate("/")}
-          className="w-full mt-4 p-3 font-medium bg-green-500 rounded flex items-center gap-1 justify-center text-black"
-        >
-          <FaHome className="w-5 h-5"></FaHome>
-          Home
-        </button>
+        <SocialLogin></SocialLogin>
+
         <p className="mt-4">
           Don't have an account?{" "}
           <Link to="/sign-up" className="text-blue-600">

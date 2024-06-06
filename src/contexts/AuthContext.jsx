@@ -5,6 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import auth from "../../firebaseConfig";
 
@@ -15,34 +17,62 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const googleAuthProvider = new GoogleAuthProvider();
 
-  //Create User
-  const createUser = (email, password) => {
+  // Create User
+  const createUser = async (email, password) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    setUser(userCredential.user);
+    setLoading(false);
+    return userCredential;
   };
 
-  //Login User
-  const loginUser = (email, password) => {
+  // Google Login User
+  const GoogleLoginUser = async () => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithPopup(auth, googleAuthProvider);
+    setUser(userCredential.user);
+    setLoading(false);
+    return userCredential;
+  };
+  // Login User
+  const loginUser = async (email, password) => {
+    setLoading(true);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    setUser(userCredential.user);
+    setLoading(false);
+    return userCredential;
   };
 
-  //Update user
-  const updateUserProfile = (user, name, photoURL) => {
+  // Update user
+  const updateUserProfile = async (user, name, photoURL) => {
     setLoading(true);
-    return updateProfile(user, {
+    await updateProfile(user, {
       displayName: name,
       photoURL: photoURL,
     });
+    setUser(user);
+    setLoading(false);
   };
 
-  //Log out user
-  const logoutUser = () => {
-    return signOut(auth);
+  // Log out user
+  const logoutUser = async () => {
+    setLoading(true);
+    await signOut(auth);
+    setUser(null);
+    setLoading(false);
   };
 
-  //User Monitor
+  // User Monitor
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -58,6 +88,7 @@ export const AuthProvider = ({ children }) => {
   const authInfo = {
     user,
     createUser,
+    GoogleLoginUser,
     updateUserProfile,
     loginUser,
     logoutUser,

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { HiUserCircle, HiMenu } from "react-icons/hi";
-import { IoMdLogOut } from "react-icons/io";
 import logo from "../assets/logo.webp";
 import {
   FaCampground,
@@ -79,14 +78,14 @@ const Navbar = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-end items-center h-20 container  mx-auto p-5">
+      <div className="flex justify-center items-center h-20 container mx-auto">
         <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
   }
 
   return (
-    <nav className="bg-gray-100 shadow-lg py-4 fixed left-0 right-0 z-20">
+    <nav className="bg-gray-100 shadow-lg py-2 fixed left-0 right-0 z-20">
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Part */}
         <div className="flex items-center">

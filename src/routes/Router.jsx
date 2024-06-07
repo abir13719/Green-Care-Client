@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <AvailableCamps></AvailableCamps>,
       },
       {
-        path: "/camp-details",
+        path: "/camps/:id",
         element: <CampDetails></CampDetails>,
       },
       {

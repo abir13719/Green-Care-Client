@@ -29,7 +29,9 @@ const schema = yup.object().shape({
       return (
         value &&
         value.length > 0 &&
-        ["image/jpeg", "image/png", "image/gif"].includes(value[0].type)
+        ["image/jpeg", "image/jpg", "image/png", "image/gif"].includes(
+          value[0].type
+        )
       );
     }),
 });

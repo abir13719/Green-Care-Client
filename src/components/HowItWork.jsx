@@ -17,7 +17,7 @@ const HowItWork = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Step 1 */}
-          <div className="bg-green-500 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="bg-gray-100 border border-gray-300 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <FaUserPlus className="text-black h-12 w-12 mb-4" />
             <h3 className="text-xl font-semibold mb-2">1. Register</h3>
             <p className="text-gray-800">
@@ -27,7 +27,7 @@ const HowItWork = () => {
           </div>
 
           {/* Step 2 */}
-          <div className="bg-green-500 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="bg-gray-100 border border-gray-300 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <FaMapMarkerAlt className="text-black h-12 w-12 mb-4" />
             <h3 className="text-xl font-semibold mb-2">2. Find a Camp</h3>
             <p className="text-gray-800">
@@ -37,7 +37,7 @@ const HowItWork = () => {
           </div>
 
           {/* Step 3 */}
-          <div className="bg-green-500 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="bg-gray-100 border border-gray-300 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <FaClipboardList className="text-black h-12 w-12 mb-4" />
             <h3 className="text-xl font-semibold mb-2">
               3. Register for the Camp
@@ -49,7 +49,7 @@ const HowItWork = () => {
           </div>
 
           {/* Step 4 */}
-          <div className="bg-green-500 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="bg-gray-100 border border-gray-300 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <FaTasks className="text-black h-12 w-12 mb-4" />
             <h3 className="text-xl font-semibold mb-2">
               4. Prepare for the Camp
@@ -61,7 +61,7 @@ const HowItWork = () => {
           </div>
 
           {/* Step 5 */}
-          <div className="bg-green-500 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="bg-gray-100 border border-gray-300 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <FaHandsHelping className="text-black h-12 w-12 mb-4" />
             <h3 className="text-xl font-semibold mb-2">5. Attend the Camp</h3>
             <p className="text-gray-800">
@@ -71,7 +71,7 @@ const HowItWork = () => {
           </div>
 
           {/* Step 6 */}
-          <div className="bg-green-500 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="bg-gray-100 border border-gray-300 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <FaThumbsUp className="text-black h-12 w-12 mb-4" />
             <h3 className="text-xl font-semibold mb-2">6. Give Feedback</h3>
             <p className="text-gray-800">

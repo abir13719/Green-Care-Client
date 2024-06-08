@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
@@ -43,6 +44,15 @@ const RegistrationModal = ({ camp, user, isOpen, onClose }) => {
     };
 
     console.log(participantData);
+    try {
+      await axios.post("http://localhost:5000/participants", participantData);
+      await axios.patch(`http://localhost:5000/camps/${camp._id}`, {
+        participantCount: camp.participantCount + 1,
+      });
+      onClose();
+    } catch (error) {
+      console.error("Error registering for the camp", error);
+    }
   };
 
   if (!isOpen) return null;
@@ -175,7 +185,7 @@ const RegistrationModal = ({ camp, user, isOpen, onClose }) => {
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-black p-3 rounded mt-4"
+            className="bg-green-500 text-black font-medium p-3 rounded mt-4"
           >
             Join Camp
           </button>

@@ -27,14 +27,14 @@ const CampDetails = () => {
   };
 
   return (
-    <div className="bg-gray-900 min-h-screen py-6 text-white">
+    <div className="min-h-screen py-6 bg-gray-100">
       <div className="container mx-auto pt-24 px-4 md:px-6 lg:px-8">
         {camp ? (
           <div>
             <img
               src={camp.campImage}
               alt={camp.campName}
-              className="w-full h-fit md:h-[550px] object-contain md:object-cover rounded mb-4"
+              className="w-full h-fit md:h-[550px] object-contain md:object-cover rounded mb-4 border border-gray-300"
             />
             <h2 className="text-3xl font-semibold mb-4">{camp.campName}</h2>
             <p className="mb-4">{camp.description}</p>
@@ -46,7 +46,7 @@ const CampDetails = () => {
             </p>
             <button
               onClick={openModal}
-              className="bg-green-500 text-black px-4 py-2 rounded"
+              className="bg-green-500 hover:bg-black text-black hover:text-white font-medium px-4 py-2 rounded"
             >
               Join Camp
             </button>

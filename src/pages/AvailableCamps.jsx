@@ -66,7 +66,9 @@ const AvailableCamps = () => {
             onChange={handleSort}
             className="px-5 py-2 outline-none appearance-none mb-4 md:mb-0 w-full md:w-auto"
           >
-            <option value="">Sort by</option>
+            <option value="" disabled>
+              Sort by
+            </option>
             <option value="most-registered">Most Registered</option>
             <option value="camp-fees">Camp Fees</option>
             <option value="alphabetical">Alphabetical Order</option>

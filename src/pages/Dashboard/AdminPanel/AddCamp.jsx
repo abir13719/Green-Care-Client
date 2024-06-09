@@ -92,7 +92,7 @@ const AddCamp = () => {
   };
 
   return (
-    <div className="w-full p-6 md:p-10 bg-gray-900 text-white">
+    <div className="w-full p-6 md:p-10 bg-gray-100">
       <h2 className="text-2xl font-semibold mb-6">Add Camp</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -106,7 +106,7 @@ const AddCamp = () => {
             {...register("campName")}
             type="text"
             id="campName"
-            className="w-full p-3 text-black"
+            className="w-full p-3 text-black border border-gray-300"
           />
           {errors.campName && (
             <span className="text-red-500">{errors.campName.message}</span>
@@ -121,7 +121,7 @@ const AddCamp = () => {
             {...register("image")}
             type="file"
             id="image"
-            className="w-full p-[9px] text-black bg-white"
+            className="w-full p-[9px] text-black border border-gray-300 bg-white"
           />
           {errors.image && (
             <span className="text-red-500">{errors.image.message}</span>
@@ -136,7 +136,7 @@ const AddCamp = () => {
             {...register("campFees")}
             type="number"
             id="campFees"
-            className="w-full p-3 text-black"
+            className="w-full p-3 text-black border border-gray-300"
           />
           {errors.campFees && (
             <span className="text-red-500">{errors.campFees.message}</span>
@@ -151,7 +151,7 @@ const AddCamp = () => {
             {...register("dateTime")}
             type="datetime-local"
             id="dateTime"
-            className="w-full p-[11px] text-black"
+            className="w-full p-[11px] text-black border border-gray-300"
           />
           {errors.dateTime && (
             <span className="text-red-500">{errors.dateTime.message}</span>
@@ -166,7 +166,7 @@ const AddCamp = () => {
             {...register("location")}
             type="text"
             id="location"
-            className="w-full p-3 text-black"
+            className="w-full p-3 text-black border border-gray-300"
           />
           {errors.location && (
             <span className="text-red-500">{errors.location.message}</span>
@@ -184,7 +184,7 @@ const AddCamp = () => {
             {...register("healthcareProfessionalName")}
             type="text"
             id="healthcareProfessionalName"
-            className="w-full p-3 text-black"
+            className="w-full p-3 text-black border border-gray-300"
           />
           {errors.healthcareProfessionalName && (
             <span className="text-red-500">
@@ -202,7 +202,7 @@ const AddCamp = () => {
             type="number"
             id="participantCount"
             defaultValue={0}
-            className="w-full p-3 text-black"
+            className="w-full p-3 text-black border border-gray-300"
           />
           {errors.participantCount && (
             <span className="text-red-500">
@@ -218,7 +218,7 @@ const AddCamp = () => {
           <textarea
             {...register("description")}
             id="description"
-            className="w-full p-3 text-black"
+            className="w-full p-3 text-black border border-gray-300"
           />
           {errors.description && (
             <span className="text-red-500">{errors.description.message}</span>
@@ -227,7 +227,7 @@ const AddCamp = () => {
 
         <button
           type="submit"
-          className="col-span-2 w-full mt-4 p-3 font-medium bg-green-500 flex items-center gap-1 justify-center text-black"
+          className="col-span-2 w-full mt-4 p-3 font-medium bg-green-500 hover:bg-black hover:text-white flex items-center gap-1 justify-center text-black"
         >
           Submit
         </button>

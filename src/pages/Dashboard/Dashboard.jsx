@@ -24,8 +24,8 @@ const Dashboard = () => {
           </button>
           <h1 className="text-2xl font-bold">Dashboard</h1>
         </header>
-        <main className="">
-          <Outlet />
+        <main>
+          <Outlet></Outlet>
         </main>
       </div>
     </div>

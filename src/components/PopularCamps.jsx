@@ -17,7 +17,6 @@ const PopularCamps = () => {
 
     fetchPopularCamps();
   }, []);
-  console.log(camps);
 
   if (!camps.length) return <div>Loading...</div>;
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 
-const Profile = () => {
+const ManageAdminProfile = () => {
   const { user, updateUserProfile } = useAuth();
   const uid = user?.uid;
   const [profile, setProfile] = useState(null);
@@ -40,7 +40,6 @@ const Profile = () => {
       profilePicture: data.profilePicture,
       phone: data.contactDetails,
     };
-    console.log(newData);
     try {
       await axios.patch(`http://localhost:5000/users/${uid}`, newData);
       updateUserProfile(user, newData.name, newData.profilePicture);
@@ -50,7 +49,6 @@ const Profile = () => {
       console.error("Error updating profile", error);
     }
   };
-  console.log(profile);
   if (!profile) {
     return <div>Loading...</div>;
   }
@@ -102,9 +100,16 @@ const Profile = () => {
           </div>
           <button
             type="submit"
-            className="bg-green-500 hover:bg-black text-white font-medium px-4 py-2 rounded"
+            className="bg-green-500 hover:bg-black text-white font-medium px-4 py-2 rounded mr-2"
           >
             Save
+          </button>
+          <button
+            type="button"
+            onClick={() => setEditMode(false)}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-medium px-4 py-2 rounded"
+          >
+            Cancel
           </button>
         </form>
       ) : (
@@ -129,4 +134,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ManageAdminProfile;

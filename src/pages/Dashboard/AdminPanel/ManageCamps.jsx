@@ -225,11 +225,11 @@ const ManageCamps = () => {
           <table className="min-w-full bg-white shadow-md rounded-lg">
             <thead>
               <tr className="bg-gray-200 border border-gray-300">
-                <th className="py-4 px-4">Camp Name</th>
-                <th className="py-4 px-4">Date & Time</th>
-                <th className="py-4 px-4">Location</th>
-                <th className="py-4 px-4">Healthcare Professional</th>
-                <th className="py-4 px-4">Actions</th>
+                <td className="py-4 px-4 font-bold">Camp Name</td>
+                <td className="py-4 px-4 font-bold">Date & Time</td>
+                <td className="py-4 px-4 font-bold">Location</td>
+                <td className="py-4 px-4 font-bold">Healthcare Professional</td>
+                <td className="py-4 px-4 font-bold">Actions</td>
               </tr>
             </thead>
             <tbody>

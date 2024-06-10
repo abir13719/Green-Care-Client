@@ -3,10 +3,15 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../../contexts/AuthContext";
+import Modal from "react-modal";
+import PaymentModal from "../../../components/PaymentModal";
+Modal.setAppElement("#root");
 
 const RegisteredCamps = () => {
   const { user } = useAuth();
   const [camps, setCamps] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedCamp, setSelectedCamp] = useState(null);
 
   useEffect(() => {
     const fetchCamps = async () => {
@@ -22,10 +27,7 @@ const RegisteredCamps = () => {
 
     fetchCamps();
   }, [user.email]);
-
-  const handlePayment = async (campId) => {
-    //TODO: Payment Function
-  };
+  console.log(camps);
 
   const handleCancel = async (campId) => {
     try {
@@ -39,7 +41,27 @@ const RegisteredCamps = () => {
   };
 
   const handleFeedback = async (campId, feedback) => {
-    //TODO: Feedback Function
+    try {
+      await axios.post(`http://localhost:5000/feedback`, {
+        campId,
+        email: user.email,
+        feedback,
+      });
+      toast.success("Feedback submitted successfully");
+    } catch (error) {
+      console.error("Error submitting feedback", error);
+      toast.error("Error submitting feedback");
+    }
+  };
+  console.log(selectedCamp);
+  const openModal = (camp) => {
+    setSelectedCamp(camp);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedCamp(null);
+    setModalIsOpen(false);
   };
 
   return (
@@ -48,11 +70,13 @@ const RegisteredCamps = () => {
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">Camp Name</th>
-            <th className="py-2 px-4 border-b">Camp Fees</th>
-            <th className="py-2 px-4 border-b">Payment Status</th>
-            <th className="py-2 px-4 border-b">Confirmation Status</th>
-            <th className="py-2 px-4 border-b">Actions</th>
+            <td className="py-2 px-4 border-b font-bold">Camp Name</td>
+            <td className="py-2 px-4 border-b font-bold">Camp Fees</td>
+            <td className="py-2 px-4 border-b font-bold">Payment Status</td>
+            <td className="py-2 px-4 border-b font-bold">
+              Confirmation Status
+            </td>
+            <td className="py-2 px-4 border-b font-bold">Actions</td>
           </tr>
         </thead>
         <tbody>
@@ -62,48 +86,57 @@ const RegisteredCamps = () => {
               <td className="py-2 px-4 border-b">{camp.campFees}</td>
               <td className="py-2 px-4 border-b">{camp.paymentStatus}</td>
               <td className="py-2 px-4 border-b">{camp.confirmationStatus}</td>
-              <td className="py-2 px-4 border-b">
+              <td className="py-2 px-4 border-b grid gap-1">
                 {camp.paymentStatus === "Unpaid" && (
                   <button
-                    onClick={() => handlePayment(camp._id)}
-                    className="bg-blue-500 text-white py-1 px-3 rounded"
+                    onClick={() => openModal(camp)}
+                    className="bg-green-500 text-white py-1 px-3 rounded"
                   >
                     Pay
                   </button>
                 )}
                 {camp.paymentStatus === "Paid" && (
-                  <button disabled>Paid</button>
+                  <button
+                    disabled
+                    className="bg-gray-300 text-white py-1 px-3 rounded cursor-not-allowed"
+                  >
+                    Paid
+                  </button>
                 )}
-                <button
-                  onClick={() => handleCancel(camp._id)}
-                  disabled={
-                    camp.paymentStatus === "Paid" &&
-                    camp.confirmationStatus === "Confirmed"
-                  }
-                  className="bg-red-500 text-white py-1 px-3 rounded"
-                >
-                  Cancel
-                </button>
-                {camp.paymentStatus === "Paid" &&
-                  camp.confirmationStatus === "Confirmed" && (
-                    <button
-                      onClick={() =>
-                        handleFeedback(
-                          camp._id,
-                          prompt("Please provide your feedback")
-                        )
-                      }
-                      className="bg-green-500 text-white py-1 px-3 rounded"
-                    >
-                      Feedback
-                    </button>
-                  )}
+
+                {camp.paymentStatus !== "Paid" ? (
+                  <button
+                    onClick={() => handleCancel(camp._id)}
+                    disabled={camp.paymentStatus === "Paid"}
+                    className="bg-red-500 text-white py-1 px-3 rounded"
+                  >
+                    Cancel
+                  </button>
+                ) : (
+                  <button
+                    onClick={() =>
+                      handleFeedback(
+                        camp._id,
+                        prompt("Please provide your feedback")
+                      )
+                    }
+                    className="bg-green-500 text-white py-1 px-3 rounded"
+                  >
+                    Feedback
+                  </button>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <ToastContainer></ToastContainer>
+      <PaymentModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        campId={selectedCamp ? selectedCamp.campId : null}
+        email={user.email}
+      />
+      <ToastContainer />
     </div>
   );
 };

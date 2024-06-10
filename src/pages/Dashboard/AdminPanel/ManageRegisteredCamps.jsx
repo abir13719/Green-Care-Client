@@ -20,6 +20,7 @@ const ManageCamps = () => {
   }, []);
 
   const handleConfirm = async (campId) => {
+    console.log(campId, "insidie men");
     try {
       await axios.patch(`http://localhost:5000/participants/${campId}`, {
         confirmationStatus: "Confirmed",
@@ -55,12 +56,14 @@ const ManageCamps = () => {
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">Camp Name</th>
-            <th className="py-2 px-4 border-b">Camp Fees</th>
-            <th className="py-2 px-4 border-b">Participant Name</th>
-            <th className="py-2 px-4 border-b">Payment Status</th>
-            <th className="py-2 px-4 border-b">Confirmation Status</th>
-            <th className="py-2 px-4 border-b">Actions</th>
+            <td className="py-2 px-4 border-b font-bold">Camp Name</td>
+            <td className="py-2 px-4 border-b font-bold">Camp Fees</td>
+            <td className="py-2 px-4 border-b font-bold">Participant Name</td>
+            <td className="py-2 px-4 border-b font-bold">Payment Status</td>
+            <td className="py-2 px-4 border-b font-bold">
+              Confirmation Status
+            </td>
+            <td className="py-2 px-4 border-b font-bold">Actions</td>
           </tr>
         </thead>
         <tbody>
@@ -71,10 +74,10 @@ const ManageCamps = () => {
               <td className="py-2 px-4 border-b">{camp.participantName}</td>
               <td className="py-2 px-4 border-b">{camp.paymentStatus}</td>
               <td className="py-2 px-4 border-b">{camp.confirmationStatus}</td>
-              <td className="py-2 px-4 border-b">
+              <td className="py-2 px-4 border-b grid gap-1">
                 {camp.confirmationStatus === "Pending" && (
                   <button
-                    onClick={() => handleConfirm(camp._id)}
+                    onClick={() => handleConfirm(camp.campId)}
                     className="bg-green-500 text-white py-1 px-3 rounded"
                   >
                     Confirm

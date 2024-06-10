@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../../contexts/AuthContext";
 import Modal from "react-modal";
 import PaymentModal from "../../../components/PaymentModal";
+import FeedbackModal from "../../../components/FeedbackModal";
 Modal.setAppElement("#root");
 
 const RegisteredCamps = () => {
@@ -12,6 +13,7 @@ const RegisteredCamps = () => {
   const [camps, setCamps] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCamp, setSelectedCamp] = useState(null);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCamps = async () => {
@@ -27,7 +29,6 @@ const RegisteredCamps = () => {
 
     fetchCamps();
   }, [user.email]);
-  console.log(camps);
 
   const handleCancel = async (campId) => {
     try {
@@ -40,20 +41,34 @@ const RegisteredCamps = () => {
     }
   };
 
-  const handleFeedback = async (campId, feedback) => {
+  const handleFeedback = (campId) => {
+    setSelectedCamp(campId);
+    setFeedbackModalOpen(true);
+  };
+
+  const handleCloseFeedbackModal = () => {
+    setSelectedCamp(null);
+    setFeedbackModalOpen(false);
+  };
+
+  const handleSubmitFeedback = async (campId, feedback) => {
+    console.log(campId, feedback);
+    const feedbackData = {
+      campId,
+      feedback,
+      userName: user?.displayName,
+      email: user?.email,
+      userPorfile: user?.photoURL,
+    };
     try {
-      await axios.post(`http://localhost:5000/feedback`, {
-        campId,
-        email: user.email,
-        feedback,
-      });
+      await axios.post(`http://localhost:5000/feedback`, { ...feedbackData });
       toast.success("Feedback submitted successfully");
     } catch (error) {
       console.error("Error submitting feedback", error);
       toast.error("Error submitting feedback");
     }
   };
-  console.log(selectedCamp);
+
   const openModal = (camp) => {
     setSelectedCamp(camp);
     setModalIsOpen(true);
@@ -114,12 +129,7 @@ const RegisteredCamps = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() =>
-                      handleFeedback(
-                        camp._id,
-                        prompt("Please provide your feedback")
-                      )
-                    }
+                    onClick={() => handleFeedback(camp._id)}
                     className="bg-green-500 text-white py-1 px-3 rounded"
                   >
                     Feedback
@@ -130,6 +140,11 @@ const RegisteredCamps = () => {
           ))}
         </tbody>
       </table>
+      <FeedbackModal
+        isOpen={feedbackModalOpen}
+        onClose={handleCloseFeedbackModal}
+        onSubmit={(feedback) => handleSubmitFeedback(selectedCamp, feedback)}
+      />
       <PaymentModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

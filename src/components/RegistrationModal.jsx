@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const RegistrationModal = ({ camp, user, isOpen, onClose }) => {
   const modalRef = useRef();
@@ -48,6 +49,10 @@ const RegistrationModal = ({ camp, user, isOpen, onClose }) => {
       await axios.post("http://localhost:5000/participants", participantData);
       await axios.patch(`http://localhost:5000/camps/${camp._id}`, {
         participantCount: camp.participantCount + 1,
+      });
+      Swal.fire({
+        title: "Camp Added to Register",
+        icon: "success",
       });
       onClose();
     } catch (error) {
@@ -156,10 +161,9 @@ const RegistrationModal = ({ camp, user, isOpen, onClose }) => {
             <select
               {...register("gender", { required: "Gender is required" })}
               className="w-full p-2 border rounded text-black"
+              defaultValue={""}
             >
-              <option value="" disabled>
-                Select Gender
-              </option>
+              <option value="">Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>

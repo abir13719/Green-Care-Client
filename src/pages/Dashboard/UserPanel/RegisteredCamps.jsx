@@ -1,52 +1,109 @@
-import React from "react";
-import demo from "../../../assets/Screenshot.png";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const RegisteredCamps = () => {
+  const { user } = useAuth();
+  const [camps, setCamps] = useState([]);
+
+  useEffect(() => {
+    const fetchCamps = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/participants/${user.email}`
+        );
+        setCamps(response.data);
+      } catch (error) {
+        console.error("Error fetching registered camps", error);
+      }
+    };
+
+    fetchCamps();
+  }, [user.email]);
+
+  const handlePayment = async (campId) => {
+    //TODO: Payment Function
+  };
+
+  const handleCancel = async (campId) => {
+    try {
+      await axios.delete(`http://localhost:5000/participants/${campId}`);
+      setCamps(camps.filter((camp) => camp._id !== campId));
+      toast.success("Registration cancelled successfully");
+    } catch (error) {
+      console.error("Error cancelling registration", error);
+      toast.error("Error cancelling registration");
+    }
+  };
+
+  const handleFeedback = async (campId, feedback) => {
+    //TODO: Feedback Function
+  };
+
   return (
-    <div className="bg-green-200">
-      <div className="container mx-auto h-screen flex flex-col items-center justify-center">
-        <h1 className="text-5xl font-bold">This will be Registered Camps</h1>
-        <p className="text-center">
-          On this route, display all the data, showcasing only camps registered
-          by each participant. Ensure clear organization and presentation of
-          camp details (Camp name, Camp Fees, Participant Name) in a table
-          format. Include additional fields such as payment status, payment
-          confirmation status, a feedback button, and a cancel button.
-        </p>
-        <p className="text-center">
-          <b>Payment Status:</b>
-          Show if each camp is unpaid or paid. For unpaid camps, provide a "Pay"
-          button to redirect participants to payment. After successful payment
-          via Stripe, display a notification with the transaction ID and update
-          the "Pay" button to "Paid," disabling it.
-        </p>
-        <p className="text-center">
-          <b>Note:</b>
-          Upon successful payment, document transaction details in a dedicated
-          collection for the participant's payment history
-        </p>
-        <p className="text-center">
-          <b>Confirmation Status:</b>
-          Set initially to "Pending" and automatically updated to "Confirmed"
-          upon organizer approval.
-        </p>
-        <p className="text-center">
-          <b>Cancellation:</b>
-          Each camp row features a "Cancel" button for participants to revoke
-          their registration. The button is active before payment but becomes
-          inactive after payment. Upon cancellation, data is promptly removed
-          from the database.
-        </p>
-        <p className="text-center">
-          <b>Feedback and Ratings:</b>
-          Once payment is successfully completed and confirmed by the organizer,
-          the feedback button becomes visible. Participants can provide feedback
-          and ratings by clicking this button, and their responses are collected
-          and stored in a feedback collection. Additionally, all participant
-          feedback is displayed on the home page section.
-        </p>
-        <img src={demo} />
-      </div>
+    <div className="container mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-6">Registered Camps</h2>
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border-b">Camp Name</th>
+            <th className="py-2 px-4 border-b">Camp Fees</th>
+            <th className="py-2 px-4 border-b">Payment Status</th>
+            <th className="py-2 px-4 border-b">Confirmation Status</th>
+            <th className="py-2 px-4 border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {camps.map((camp) => (
+            <tr key={camp._id}>
+              <td className="py-2 px-4 border-b">{camp.campName}</td>
+              <td className="py-2 px-4 border-b">{camp.campFees}</td>
+              <td className="py-2 px-4 border-b">{camp.paymentStatus}</td>
+              <td className="py-2 px-4 border-b">{camp.confirmationStatus}</td>
+              <td className="py-2 px-4 border-b">
+                {camp.paymentStatus === "Unpaid" && (
+                  <button
+                    onClick={() => handlePayment(camp._id)}
+                    className="bg-blue-500 text-white py-1 px-3 rounded"
+                  >
+                    Pay
+                  </button>
+                )}
+                {camp.paymentStatus === "Paid" && (
+                  <button disabled>Paid</button>
+                )}
+                <button
+                  onClick={() => handleCancel(camp._id)}
+                  disabled={
+                    camp.paymentStatus === "Paid" &&
+                    camp.confirmationStatus === "Confirmed"
+                  }
+                  className="bg-red-500 text-white py-1 px-3 rounded"
+                >
+                  Cancel
+                </button>
+                {camp.paymentStatus === "Paid" &&
+                  camp.confirmationStatus === "Confirmed" && (
+                    <button
+                      onClick={() =>
+                        handleFeedback(
+                          camp._id,
+                          prompt("Please provide your feedback")
+                        )
+                      }
+                      className="bg-green-500 text-white py-1 px-3 rounded"
+                    >
+                      Feedback
+                    </button>
+                  )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };

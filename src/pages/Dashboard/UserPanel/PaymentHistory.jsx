@@ -10,7 +10,7 @@ const PaymentHistory = () => {
     const fetchPayments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/payments/${user.email}`
+          `http://localhost:5000/payment-info/${user.email}`
         );
         setPayments(response.data);
       } catch (error) {
@@ -27,10 +27,11 @@ const PaymentHistory = () => {
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">Camp Name</th>
-            <th className="py-2 px-4 border-b">Camp Fees</th>
-            <th className="py-2 px-4 border-b">Payment Status</th>
-            <th className="py-2 px-4 border-b">Confirmation Status</th>
+            <td className="py-2 px-4 border-b font-bold">Camp Name</td>
+            <td className="py-2 px-4 border-b font-bold">Camp Fees</td>
+            <td className="py-2 px-4 border-b font-bold">Date</td>
+            <td className="py-2 px-4 border-b font-bold">Transaction ID</td>
+            <td className="py-2 px-4 border-b font-bold">Payment Status</td>
           </tr>
         </thead>
         <tbody>
@@ -38,10 +39,9 @@ const PaymentHistory = () => {
             <tr key={payment._id}>
               <td className="py-2 px-4 border-b">{payment.campName}</td>
               <td className="py-2 px-4 border-b">{payment.campFees}</td>
-              <td className="py-2 px-4 border-b">{payment.paymentStatus}</td>
-              <td className="py-2 px-4 border-b">
-                {payment.confirmationStatus}
-              </td>
+              <td className="py-2 px-4 border-b">{payment.date}</td>
+              <td className="py-2 px-4 border-b">{payment.transactionId}</td>
+              <td className="py-2 px-4 border-b">{payment.status}</td>
             </tr>
           ))}
         </tbody>

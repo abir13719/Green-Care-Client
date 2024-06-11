@@ -60,6 +60,7 @@ const PaymentForm = ({ onRequestClose, campId, email }) => {
             campName: campData.data.campName,
             campFees: paymentResult.paymentIntent.amount / 100,
             transactionId: paymentResult.paymentIntent.id,
+            status: paymentResult.paymentIntent.status,
             date: new Date().toLocaleDateString(),
             campId,
             email: user.email,

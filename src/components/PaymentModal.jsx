@@ -9,12 +9,14 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
+import { useAuth } from "../contexts/AuthContext";
 
 const stripePromise = loadStripe(
   "pk_test_51PMOxXRom0dhw37t0b3wKYN80KJ4fBedYhGtAWWNbrUgvIDeV3nATbbYYKnG7MdCzjnxVHrNrQ8ayOYGYx5CmAHG00WJUwz0RW"
 );
 
 const PaymentForm = ({ onRequestClose, campId, email }) => {
+  const { user } = useAuth();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -48,6 +50,25 @@ const PaymentForm = ({ onRequestClose, campId, email }) => {
         toast.error(paymentResult.error.message);
       } else {
         if (paymentResult.paymentIntent.status === "succeeded") {
+          console.log(paymentResult);
+
+          const campData = await axios.get(
+            `http://localhost:5000/camps/${campId}`
+          );
+
+          const paymentInfo = {
+            campName: campData.data.campName,
+            campFees: paymentResult.paymentIntent.amount / 100,
+            transactionId: paymentResult.paymentIntent.id,
+            date: new Date().toLocaleDateString(),
+            campId,
+            email: user.email,
+          };
+
+          console.log(paymentInfo);
+
+          await axios.post("http://localhost:5000/payment-info", paymentInfo);
+
           await axios.patch(`http://localhost:5000/participants/${campId}`, {
             paymentStatus: "Paid",
           });

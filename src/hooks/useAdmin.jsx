@@ -13,12 +13,12 @@ const useAdmin = () => {
     isLoading: adminLoading,
     isError: adminError,
   } = useQuery({
-    queryKey: ["isAdmin", user?.uid],
+    queryKey: ["isAdmin", user?.email],
     queryFn: async () => {
-      const res = await publicAxios.get(`/users/${user.uid}`);
+      const res = await publicAxios.get(`/users/${user.email}`);
       return res.data;
     },
-    enabled: !!user?.uid,
+    enabled: !!user?.email,
   });
 
   useEffect(() => {

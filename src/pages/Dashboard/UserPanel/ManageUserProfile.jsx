@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 const ManageUserProfile = () => {
   const { user, updateUserProfile } = useAuth();
-  const uid = user?.uid;
+  const email = user?.email;
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
@@ -17,11 +17,11 @@ const ManageUserProfile = () => {
   } = useForm();
 
   useEffect(() => {
-    if (uid) {
+    if (email) {
       const fetchProfile = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/users/${uid}`
+            `http://localhost:5000/users/${email}`
           );
           setProfile(response.data);
           reset(response.data);
@@ -32,7 +32,7 @@ const ManageUserProfile = () => {
 
       fetchProfile();
     }
-  }, [uid, reset]);
+  }, [email, reset]);
 
   const onSubmit = async (data) => {
     const newData = {
@@ -41,7 +41,7 @@ const ManageUserProfile = () => {
       phone: data.contactDetails,
     };
     try {
-      await axios.patch(`http://localhost:5000/users/${uid}`, newData);
+      await axios.patch(`http://localhost:5000/users/${email}`, newData);
       updateUserProfile(user, newData.name, newData.profilePicture);
       setProfile(data);
       setEditMode(false);

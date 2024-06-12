@@ -25,8 +25,19 @@ const Feedback = () => {
   return (
     <div className="container mx-auto p-6">
       <Swiper
-        slidesPerView={3}
         spaceBetween={30}
+        slidesPerView={1}
+        breakpoints={{
+          480: {
+            slidesPerView: 1,
+          },
+          600: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+        }}
         loop={true}
         pagination={{
           clickable: true,

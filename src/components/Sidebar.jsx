@@ -14,7 +14,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     <div
       className={`fixed inset-0 bg-green-500 transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:w-72`}
+      } transition-transform duration-300 ease-in-out md:relative md:translate-x-0 w-screen md:w-72`}
     >
       <div className="flex items-center justify-between p-4 md:hidden shadow-md">
         <h2 className="text-xl font-semibold">Dashboard</h2>
@@ -27,20 +27,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         {/* Admin Routes */}
         {isAdmin && isAdmin ? (
           <>
-            <NavLink
-              to="dashboard/manage-admin-profile"
-              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-            >
-              <CgProfile className="h-6 w-6"></CgProfile>
-              Manage Profile
-            </NavLink>
-            <NavLink
-              to="dashboard/add-camp"
-              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-            >
-              <GiCampingTent className="w-6 h-6"></GiCampingTent>
-              Add A Camp
-            </NavLink>
             <NavLink
               to="dashboard/manage-camps"
               className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
@@ -55,6 +41,20 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               <FaEdit className="w-[22px] h-[22px]"></FaEdit>
               Manage Registered Camps
             </NavLink>
+            <NavLink
+              to="dashboard/add-camp"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <GiCampingTent className="w-6 h-6"></GiCampingTent>
+              Add A Camp
+            </NavLink>
+            <NavLink
+              to="dashboard/manage-admin-profile"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <CgProfile className="h-6 w-6"></CgProfile>
+              Manage Profile
+            </NavLink>
           </>
         ) : (
           <>
@@ -64,13 +64,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             >
               <IoIosAnalytics className="w-6 h-6"></IoIosAnalytics>
               Analytics
-            </NavLink>
-            <NavLink
-              to="dashboard/manage-user-profile"
-              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-            >
-              <CgProfile className="h-6 w-6"></CgProfile>
-              Manage Profile
             </NavLink>
             <NavLink
               to="dashboard/registered-camps"
@@ -85,6 +78,13 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             >
               <MdPayments className="w-6 h-6"></MdPayments>
               Payment History
+            </NavLink>
+            <NavLink
+              to="dashboard/manage-user-profile"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <CgProfile className="h-6 w-6"></CgProfile>
+              Manage Profile
             </NavLink>
           </>
         )}

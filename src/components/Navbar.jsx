@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { useAuth } from "../contexts/AuthContext";
+import useAdmin from "../hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logoutUser, loading } = useAuth();
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  const [isAdmin] = useAdmin();
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
@@ -58,7 +60,7 @@ const Navbar = () => {
       <li>
         <NavLink
           to="/"
-          className="bg-green-500 p-3 mx-1 rounded-md font-medium flex items-center gap-1"
+          className="bg-green-500 p-3 my-1 mx-1 rounded-md font-medium flex items-center gap-1"
         >
           <FaHome></FaHome>
           Home
@@ -67,7 +69,7 @@ const Navbar = () => {
       <li>
         <NavLink
           to="/available-camps"
-          className="bg-green-500 p-3 mx-1 rounded-md font-medium flex items-center gap-1"
+          className="bg-green-500 p-3 my-1 mx-1 rounded-md font-medium flex items-center gap-1"
         >
           <FaCampground></FaCampground>
           Available Camps
@@ -126,7 +128,9 @@ const Navbar = () => {
               >
                 <p className="text-lg text-white">{user?.displayName}</p>
                 <Link
-                  to="dashboard"
+                  to={`dashboard/${
+                    isAdmin ? "dashboard/manage-camps" : "dashboard/analytics"
+                  }`}
                   className="bg-green-500 text-white w-full p-3 rounded-md flex items-center gap-1"
                 >
                   <MdDashboard></MdDashboard>

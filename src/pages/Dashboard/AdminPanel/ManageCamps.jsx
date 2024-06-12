@@ -10,7 +10,8 @@ const ManageCamps = () => {
   const [editMode, setEditMode] = useState(false);
   const [currentCamp, setCurrentCamp] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const itemsPerPage = 10;
+  const [searchQuery, setSearchQuery] = useState("");
+  const itemsPerPage = 2;
 
   const {
     register,
@@ -123,9 +124,26 @@ const ManageCamps = () => {
     setCurrentPage(event.selected);
   };
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(0);
+  };
+
+  const filteredCamps = camps.filter(
+    (camp) =>
+      camp.campName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      new Date(camp.dateTime)
+        .toLocaleString()
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      camp.healthcareProfessionalName
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+  );
+
   const offset = currentPage * itemsPerPage;
-  const currentItems = camps.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(camps.length / itemsPerPage);
+  const currentItems = filteredCamps.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredCamps.length / itemsPerPage);
 
   return (
     <div className="container mx-auto p-6">
@@ -232,78 +250,91 @@ const ManageCamps = () => {
           </button>
         </form>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-lg">
-            <thead>
-              <tr className="bg-gray-200 border border-gray-300">
-                <td className="py-4 px-4 font-bold">Camp Name</td>
-                <td className="py-4 px-4 font-bold">Date & Time</td>
-                <td className="py-4 px-4 font-bold">Location</td>
-                <td className="py-4 px-4 font-bold">Healthcare Professional</td>
-                <td className="py-4 px-4 font-bold">Actions</td>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((camp, index) => (
-                <tr
-                  key={camp._id}
-                  className={` border border-gray-300 ${
-                    index % 2 === 0 ? "bg-white" : "bg-gray-100"
-                  }`}
-                >
-                  <td className="py-2 px-4">{camp.campName}</td>
-                  <td className="py-2 px-4">
-                    {new Date(camp.dateTime).toLocaleString()}
+        <>
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Search by Camp Name, Date, or Healthcare Professional Name"
+              value={searchQuery}
+              onChange={handleSearch}
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white shadow-md rounded-lg">
+              <thead>
+                <tr className="bg-gray-200 border border-gray-300">
+                  <td className="py-4 px-4 font-bold">Camp Name</td>
+                  <td className="py-4 px-4 font-bold">Date & Time</td>
+                  <td className="py-4 px-4 font-bold">Location</td>
+                  <td className="py-4 px-4 font-bold">
+                    Healthcare Professional
                   </td>
-                  <td className="py-2 px-4">{camp.location}</td>
-                  <td className="py-2 px-4">
-                    {camp.healthcareProfessionalName}
-                  </td>
-                  <td className="py-2 px-4 grid gap-1">
-                    <button
-                      onClick={() => handleEdit(camp)}
-                      className="bg-green-500 hover:bg-black text-black hover:text-white px-4 py-2 rounded"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => handleDelete(camp._id)}
-                      className="bg-red-500 hover:bg-black text-black hover:text-white px-4 py-2 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
+                  <td className="py-4 px-4 font-bold">Actions</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            breakLabel={"..."}
-            pageCount={pageCount}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={2}
-            onPageChange={handlePageClick}
-            containerClassName={"flex justify-center my-4 w-full"}
-            pageClassName={"mx-1"}
-            pageLinkClassName={"px-3 py-1 bg-gray-300 rounded-md"}
-            previousClassName={"mx-1"}
-            previousLinkClassName={
-              "px-3 py-1 bg-green-500 rounded-md hover:bg-green-400"
-            }
-            nextClassName={"mx-1"}
-            nextLinkClassName={
-              "px-3 py-1 bg-green-500 rounded-md hover:bg-green-400"
-            }
-            breakClassName={"mx-1"}
-            breakLinkClassName={"px-3 py-1"}
-            activeClassName={"bg-gray-300"}
-            activeLinkClassName={
-              "text-gray-900 font-bold bg-[#000000] text-[#ffff] rounded-md"
-            }
-          />
-        </div>
+              </thead>
+              <tbody>
+                {currentItems.map((camp, index) => (
+                  <tr
+                    key={camp._id}
+                    className={` border border-gray-300 ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                    }`}
+                  >
+                    <td className="py-2 px-4">{camp.campName}</td>
+                    <td className="py-2 px-4">
+                      {new Date(camp.dateTime).toLocaleString()}
+                    </td>
+                    <td className="py-2 px-4">{camp.location}</td>
+                    <td className="py-2 px-4">
+                      {camp.healthcareProfessionalName}
+                    </td>
+                    <td className="py-2 px-4 grid gap-1">
+                      <button
+                        onClick={() => handleEdit(camp)}
+                        className="bg-green-500 hover:bg-black text-black hover:text-white px-4 py-2 rounded"
+                      >
+                        Update
+                      </button>
+                      <button
+                        onClick={() => handleDelete(camp._id)}
+                        className="bg-red-500 hover:bg-black text-black hover:text-white px-4 py-2 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={2}
+              onPageChange={handlePageClick}
+              containerClassName={"flex justify-center my-4 w-full"}
+              pageClassName={"mx-1"}
+              pageLinkClassName={"px-3 py-1 bg-gray-300 rounded-md"}
+              previousClassName={"mx-1"}
+              previousLinkClassName={
+                "px-3 py-1 bg-green-500 rounded-md hover:bg-green-400"
+              }
+              nextClassName={"mx-1"}
+              nextLinkClassName={
+                "px-3 py-1 bg-green-500 rounded-md hover:bg-green-400"
+              }
+              breakClassName={"mx-1"}
+              breakLinkClassName={"px-3 py-1"}
+              activeClassName={"bg-gray-300"}
+              activeLinkClassName={
+                "text-gray-900 font-bold bg-[#000000] text-[#ffff] rounded-md"
+              }
+            />
+          </div>
+        </>
       )}
     </div>
   );

@@ -10,6 +10,7 @@ import usePublicAxios from "../hooks/usePublicAxios";
 import Swal from "sweetalert2";
 import SocialLogin from "../components/SocialLogin";
 
+//Signup Form Input Validation
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -53,7 +54,6 @@ const SignUp = () => {
     try {
       const formData = new FormData();
       formData.append("image", data.profilePicture[0]);
-
       const imgbbRes = await axios.post(
         `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_IMGBB_API_KEY

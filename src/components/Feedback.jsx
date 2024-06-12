@@ -23,35 +23,37 @@ const Feedback = () => {
 
   console.log(feedbackData);
   return (
-    <Swiper
-      slidesPerView={3}
-      spaceBetween={30}
-      loop={true}
-      pagination={{
-        clickable: true,
-      }}
-      modules={[Pagination]}
-      className="mySwiper"
-    >
-      {feedbackData.map((feedback) => (
-        <SwiperSlide
-          key={feedback._id}
-          className="border border-gray-300 grid bg-gray-100 rounded-md shadow-lg"
-        >
-          <div className="grid border p-5">
-            <div className="flex flex-col items-center">
-              <img
-                src={feedback.userPorfile}
-                className="h-20 w-20 rounded-full border border-gray-300"
-              />
-              <h2 className="font-medium mt-2">{feedback?.userName}</h2>
-              <p className="mb-2">{feedback?.email}</p>
+    <div className="container mx-auto p-6">
+      <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        loop={true}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
+        {feedbackData.map((feedback) => (
+          <SwiperSlide
+            key={feedback._id}
+            className="border border-gray-300 grid bg-gray-100 rounded-md shadow-lg"
+          >
+            <div className="grid border p-5">
+              <div className="flex flex-col items-center">
+                <img
+                  src={feedback.userProfile}
+                  className="h-20 w-20 rounded-full border border-gray-300"
+                />
+                <h2 className="font-medium mt-2">{feedback?.userName}</h2>
+                <p className="mb-2">{feedback?.email}</p>
+              </div>
+              <p className="text-justify">{feedback?.feedback}</p>
             </div>
-            <p className="text-justify">{feedback?.feedback}</p>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 };
 

@@ -16,6 +16,7 @@ const RegisteredCamps = () => {
   const [selectedCamp, setSelectedCamp] = useState(null);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -55,13 +56,12 @@ const RegisteredCamps = () => {
   };
 
   const handleSubmitFeedback = async (campId, feedback) => {
-    console.log(campId, feedback);
     const feedbackData = {
       campId,
       feedback,
       userName: user?.displayName,
       email: user?.email,
-      userPorfile: user?.photoURL,
+      userProfile: user?.photoURL,
     };
     try {
       await axios.post(`http://localhost:5000/feedback`, { ...feedbackData });
@@ -86,13 +86,34 @@ const RegisteredCamps = () => {
     setCurrentPage(event.selected);
   };
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(0);
+  };
+
+  const filteredCamps = camps.filter((camp) =>
+    Object.values(camp)
+      .join(" ")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
+
   const offset = currentPage * itemsPerPage;
-  const currentItems = camps.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(camps.length / itemsPerPage);
+  const currentItems = filteredCamps.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredCamps.length / itemsPerPage);
 
   return (
     <div className="container mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6">Registered Camps</h2>
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search by Camp Name, Camp Fees, Payment Status, or Confirmation Status"
+          value={searchQuery}
+          onChange={handleSearch}
+          className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+        />
+      </div>
       <table className="min-w-full bg-white">
         <thead>
           <tr>
@@ -129,7 +150,6 @@ const RegisteredCamps = () => {
                     Paid
                   </button>
                 )}
-
                 {camp.paymentStatus !== "Paid" ? (
                   <button
                     onClick={() => handleCancel(camp._id)}

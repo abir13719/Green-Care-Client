@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import ReactPaginate from "react-paginate";
 
 const ManageCamps = () => {
   const [camps, setCamps] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [currentCamp, setCurrentCamp] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const itemsPerPage = 10;
 
   const {
     register,
@@ -115,6 +118,14 @@ const ManageCamps = () => {
     setValue("description", camp.description);
     setEditMode(true);
   };
+
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentItems = camps.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(camps.length / itemsPerPage);
 
   return (
     <div className="container mx-auto p-6">
@@ -233,7 +244,7 @@ const ManageCamps = () => {
               </tr>
             </thead>
             <tbody>
-              {camps.map((camp, index) => (
+              {currentItems.map((camp, index) => (
                 <tr
                   key={camp._id}
                   className={` border border-gray-300 ${
@@ -266,6 +277,32 @@ const ManageCamps = () => {
               ))}
             </tbody>
           </table>
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={2}
+            onPageChange={handlePageClick}
+            containerClassName={"flex justify-center my-4 w-full"}
+            pageClassName={"mx-1"}
+            pageLinkClassName={"px-3 py-1 bg-gray-300 rounded-md"}
+            previousClassName={"mx-1"}
+            previousLinkClassName={
+              "px-3 py-1 bg-green-500 rounded-md hover:bg-green-400"
+            }
+            nextClassName={"mx-1"}
+            nextLinkClassName={
+              "px-3 py-1 bg-green-500 rounded-md hover:bg-green-400"
+            }
+            breakClassName={"mx-1"}
+            breakLinkClassName={"px-3 py-1"}
+            activeClassName={"bg-gray-300"}
+            activeLinkClassName={
+              "text-gray-900 font-bold bg-[#000000] text-[#ffff] rounded-md"
+            }
+          />
         </div>
       )}
     </div>

@@ -23,7 +23,7 @@ const RegisteredCamps = () => {
     const fetchCamps = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/participants/${user.email}`
+          `https://green-care-server.vercel.app/participants/${user.email}`
         );
         setCamps(response.data);
       } catch (error) {
@@ -36,7 +36,9 @@ const RegisteredCamps = () => {
 
   const handleCancel = async (campId) => {
     try {
-      await axios.delete(`http://localhost:5000/participants/${campId}`);
+      await axios.delete(
+        `https://green-care-server.vercel.app/participants/${campId}`
+      );
       setCamps(camps.filter((camp) => camp._id !== campId));
       toast.success("Registration cancelled successfully");
     } catch (error) {
@@ -64,7 +66,9 @@ const RegisteredCamps = () => {
       userProfile: user?.photoURL,
     };
     try {
-      await axios.post(`http://localhost:5000/feedback`, { ...feedbackData });
+      await axios.post(`https://green-care-server.vercel.app/feedback`, {
+        ...feedbackData,
+      });
       toast.success("Feedback submitted successfully");
     } catch (error) {
       console.error("Error submitting feedback", error);

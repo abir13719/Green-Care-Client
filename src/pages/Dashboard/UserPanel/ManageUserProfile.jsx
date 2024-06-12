@@ -21,7 +21,7 @@ const ManageUserProfile = () => {
       const fetchProfile = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/users/${email}`
+            `https://green-care-server.vercel.app/users/${email}`
           );
           setProfile(response.data);
           reset(response.data);
@@ -41,7 +41,10 @@ const ManageUserProfile = () => {
       phone: data.contactDetails,
     };
     try {
-      await axios.patch(`http://localhost:5000/users/${email}`, newData);
+      await axios.patch(
+        `https://green-care-server.vercel.app/users/${email}`,
+        newData
+      );
       updateUserProfile(user, newData.name, newData.profilePicture);
       setProfile(data);
       setEditMode(false);

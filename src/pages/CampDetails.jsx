@@ -12,7 +12,9 @@ const CampDetails = () => {
 
   useEffect(() => {
     const fetchCampDetails = async () => {
-      const response = await axios.get(`http://localhost:5000/camps/${id}`);
+      const response = await axios.get(
+        `https://green-care-server.vercel.app/camps/${id}`
+      );
       setCamp(response.data);
     };
     fetchCampDetails();

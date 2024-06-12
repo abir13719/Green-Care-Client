@@ -13,7 +13,9 @@ const ManageCamps = () => {
   useEffect(() => {
     const fetchCamps = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/participants`);
+        const response = await axios.get(
+          `https://green-care-server.vercel.app/participants`
+        );
         setCamps(response.data);
       } catch (error) {
         console.error("Error fetching camps", error);
@@ -25,9 +27,12 @@ const ManageCamps = () => {
 
   const handleConfirm = async (campId) => {
     try {
-      await axios.patch(`http://localhost:5000/participants/${campId}`, {
-        confirmationStatus: "Confirmed",
-      });
+      await axios.patch(
+        `https://green-care-server.vercel.app/participants/${campId}`,
+        {
+          confirmationStatus: "Confirmed",
+        }
+      );
       setCamps(
         camps.map((camp) =>
           camp._id === campId
@@ -44,7 +49,9 @@ const ManageCamps = () => {
 
   const handleCancel = async (campId) => {
     try {
-      await axios.delete(`http://localhost:5000/participants/${campId}`);
+      await axios.delete(
+        `https://green-care-server.vercel.app/participants/${campId}`
+      );
       setCamps(camps.filter((camp) => camp._id !== campId));
       toast.success("Registration cancelled successfully");
     } catch (error) {

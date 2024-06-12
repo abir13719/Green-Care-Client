@@ -27,7 +27,9 @@ const Analytics = () => {
   useEffect(() => {
     const fetchParticipantData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/participants");
+        const response = await axios.get(
+          "https://green-care-server.vercel.app/participants"
+        );
         const campsData = response.data.map((participant) => ({
           campName: participant.campName,
           campFees: participant.campFees,

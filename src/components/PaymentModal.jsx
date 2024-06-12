@@ -11,9 +11,7 @@ import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../contexts/AuthContext";
 
-const stripePromise = loadStripe(
-  "pk_test_51PMOxXRom0dhw37t0b3wKYN80KJ4fBedYhGtAWWNbrUgvIDeV3nATbbYYKnG7MdCzjnxVHrNrQ8ayOYGYx5CmAHG00WJUwz0RW"
-);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
 const PaymentForm = ({ onRequestClose, campId, email }) => {
   const { user } = useAuth();
@@ -34,10 +32,13 @@ const PaymentForm = ({ onRequestClose, campId, email }) => {
     try {
       const {
         data: { clientSecret },
-      } = await axios.post("http://localhost:5000/create-payment-intent", {
-        campId,
-        email,
-      });
+      } = await axios.post(
+        "https://green-care-server.vercel.app/create-payment-intent",
+        {
+          campId,
+          email,
+        }
+      );
 
       const paymentResult = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
@@ -53,7 +54,7 @@ const PaymentForm = ({ onRequestClose, campId, email }) => {
           console.log(paymentResult);
 
           const campData = await axios.get(
-            `http://localhost:5000/camps/${campId}`
+            `https://green-care-server.vercel.app/camps/${campId}`
           );
 
           const paymentInfo = {
@@ -68,11 +69,17 @@ const PaymentForm = ({ onRequestClose, campId, email }) => {
 
           console.log(paymentInfo);
 
-          await axios.post("http://localhost:5000/payment-info", paymentInfo);
+          await axios.post(
+            "https://green-care-server.vercel.app/payment-info",
+            paymentInfo
+          );
 
-          await axios.patch(`http://localhost:5000/participants/${campId}`, {
-            paymentStatus: "Paid",
-          });
+          await axios.patch(
+            `https://green-care-server.vercel.app/participants/${campId}`,
+            {
+              paymentStatus: "Paid",
+            }
+          );
           toast.success("Payment successful");
           onRequestClose();
         }

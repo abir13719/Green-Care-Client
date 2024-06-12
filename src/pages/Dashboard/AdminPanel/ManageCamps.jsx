@@ -24,7 +24,9 @@ const ManageCamps = () => {
   useEffect(() => {
     const fetchCamps = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/camps");
+        const response = await axios.get(
+          "https://green-care-server.vercel.app/camps"
+        );
         setCamps(response.data);
       } catch (error) {
         console.error("Error fetching camps", error);
@@ -62,7 +64,7 @@ const ManageCamps = () => {
       };
 
       await axios.patch(
-        `http://localhost:5000/update-camp/${currentCamp._id}`,
+        `https://green-care-server.vercel.app/update-camp/${currentCamp._id}`,
         updatedData
       );
       setCamps(
@@ -94,7 +96,9 @@ const ManageCamps = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:5000/delete-camp/${campId}`);
+          await axios.delete(
+            `https://green-care-server.vercel.app/delete-camp/${campId}`
+          );
           setCamps(camps.filter((camp) => camp._id !== campId));
           Swal.fire({
             icon: "success",

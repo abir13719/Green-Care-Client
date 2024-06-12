@@ -14,7 +14,7 @@ const PaymentHistory = () => {
     const fetchPayments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/payment-info/${user.email}`
+          `https://green-care-server.vercel.app/payment-info/${user.email}`
         );
         setPayments(response.data);
       } catch (error) {

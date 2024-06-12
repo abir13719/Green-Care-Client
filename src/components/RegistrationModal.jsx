@@ -46,10 +46,16 @@ const RegistrationModal = ({ camp, user, isOpen, onClose }) => {
 
     console.log(participantData);
     try {
-      await axios.post("http://localhost:5000/participants", participantData);
-      await axios.patch(`http://localhost:5000/camps/${camp._id}`, {
-        participantCount: camp.participantCount + 1,
-      });
+      await axios.post(
+        "https://green-care-server.vercel.app/participants",
+        participantData
+      );
+      await axios.patch(
+        `https://green-care-server.vercel.app/camps/${camp._id}`,
+        {
+          participantCount: camp.participantCount + 1,
+        }
+      );
       Swal.fire({
         title: "Camp Added to Register",
         icon: "success",

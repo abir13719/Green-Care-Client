@@ -22,6 +22,7 @@ const SocialLogin = () => {
         name: user.displayName,
         email: user.email,
         profilePicture: user.photoURL,
+        role: "Member",
       };
 
       await publicAxios.post("/users", userData);

@@ -10,7 +10,6 @@ import usePublicAxios from "../hooks/usePublicAxios";
 import Swal from "sweetalert2";
 import SocialLogin from "../components/SocialLogin";
 
-//Signup Form Input Validation
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -39,7 +38,7 @@ const schema = yup.object().shape({
 
 const SignUp = () => {
   const publicAxios = usePublicAxios();
-  const { user, createUser, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -66,18 +65,16 @@ const SignUp = () => {
         }
       );
       const imageUrl = imgbbRes.data.data.display_url;
-
       const userCredential = await createUser(data.email, data.password);
       const user = userCredential.user;
       await updateUserProfile(user, data.name, imageUrl);
-
       const userData = {
         uid: user.uid,
         name: data.name,
         email: data.email,
         profilePicture: imageUrl,
+        role: "Member",
       };
-
       await publicAxios.post("/users", userData);
       Swal.fire({
         title: "Registration Success",

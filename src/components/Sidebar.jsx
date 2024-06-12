@@ -5,8 +5,11 @@ import { CgProfile } from "react-icons/cg";
 import { MdManageHistory, MdPayments } from "react-icons/md";
 import { GiCampingTent } from "react-icons/gi";
 import { IoIosAnalytics } from "react-icons/io";
+import useAdmin from "../hooks/useAdmin";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
+  const [isAdmin] = useAdmin();
+
   return (
     <div
       className={`fixed inset-0 bg-green-500 transform ${
@@ -22,64 +25,72 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
       <nav className="space-y-2 pr-4 pl-2 py-2">
         {/* Admin Routes */}
-        <NavLink
-          to="dashboard/manage-admin-profile"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <CgProfile className="h-6 w-6"></CgProfile>
-          Manage Profile
-        </NavLink>
-        <NavLink
-          to="dashboard/add-camp"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <GiCampingTent className="w-6 h-6"></GiCampingTent>
-          Add A Camp
-        </NavLink>
-        <NavLink
-          to="dashboard/manage-camps"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <MdManageHistory className="w-6 h-6"></MdManageHistory>
-          Manage Camps
-        </NavLink>
-        <NavLink
-          to="dashboard/manage-registered-camps"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <FaEdit className="w-[22px] h-[22px]"></FaEdit>
-          Manage Registered Camps
-        </NavLink>
+        {isAdmin && isAdmin ? (
+          <>
+            <NavLink
+              to="dashboard/manage-admin-profile"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <CgProfile className="h-6 w-6"></CgProfile>
+              Manage Profile
+            </NavLink>
+            <NavLink
+              to="dashboard/add-camp"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <GiCampingTent className="w-6 h-6"></GiCampingTent>
+              Add A Camp
+            </NavLink>
+            <NavLink
+              to="dashboard/manage-camps"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <MdManageHistory className="w-6 h-6"></MdManageHistory>
+              Manage Camps
+            </NavLink>
+            <NavLink
+              to="dashboard/manage-registered-camps"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <FaEdit className="w-[22px] h-[22px]"></FaEdit>
+              Manage Registered Camps
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink
+              to="dashboard/analytics"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <IoIosAnalytics className="w-6 h-6"></IoIosAnalytics>
+              Analytics
+            </NavLink>
+            <NavLink
+              to="dashboard/manage-user-profile"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <CgProfile className="h-6 w-6"></CgProfile>
+              Manage Profile
+            </NavLink>
+            <NavLink
+              to="dashboard/registered-camps"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <GiCampingTent className="w-6 h-6"></GiCampingTent>
+              Registered Camps
+            </NavLink>
+            <NavLink
+              to="dashboard/payment-history"
+              className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
+            >
+              <MdPayments className="w-6 h-6"></MdPayments>
+              Payment History
+            </NavLink>
+          </>
+        )}
 
         {/* User Routes */}
-        <NavLink
-          to="dashboard/analytics"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <IoIosAnalytics className="w-6 h-6"></IoIosAnalytics>
-          Analytics
-        </NavLink>
-        <NavLink
-          to="dashboard/manage-user-profile"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <CgProfile className="h-6 w-6"></CgProfile>
-          Manage Profile
-        </NavLink>
-        <NavLink
-          to="dashboard/registered-camps"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <GiCampingTent className="w-6 h-6"></GiCampingTent>
-          Registered Camps
-        </NavLink>
-        <NavLink
-          to="dashboard/payment-history"
-          className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"
-        >
-          <MdPayments className="w-6 h-6"></MdPayments>
-          Payment History
-        </NavLink>
+
         <NavLink
           to="/"
           className="w-full border border-green-600 p-3 mx-1 rounded-md flex items-center gap-1 font-medium hover:bg-black hover:text-white"

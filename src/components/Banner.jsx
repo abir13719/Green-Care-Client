@@ -5,26 +5,24 @@ import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { EffectFade, Navigation, Pagination, Autoplay } from "swiper/modules";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useSliders from "../hooks/useSliders";
 
 const Banner = () => {
-  const {
-    data: allSliders,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["sliders"],
-    queryFn: async () => {
-      const { data } = await axios.get("/sliders.json");
-      return data;
-    },
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading sliders</div>;
-
+  const [bannerSliders, bannerLoading, bannerError] = useSliders();
   const getRandomBoolean = () => Math.random() < 0.5;
+
+  if (bannerLoading)
+    return (
+      <div className="h-screen flex items-center justify-center font-bold">
+        Loading Banner Sliders...
+      </div>
+    );
+  if (bannerError)
+    return (
+      <div className="h-screen flex items-center justify-center font-bold">
+        Error While Loading Banner Sliders...
+      </div>
+    );
 
   return (
     <Swiper
@@ -43,8 +41,8 @@ const Banner = () => {
       modules={[EffectFade, Navigation, Pagination, Autoplay]}
       className="mySwiper h-fit container mx-auto"
     >
-      {allSliders &&
-        allSliders.map((slider) => {
+      {bannerSliders &&
+        bannerSliders.map((slider) => {
           const reverseLayout = getRandomBoolean();
 
           return (

@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
+import usePopularCamps from "../hooks/usePopularCamps";
 
 const PopularCamps = () => {
-  const [camps, setCamps] = useState([]);
+  const [popularCamps, popularCampsLoading, popularCampsError] =
+    usePopularCamps();
 
-  useEffect(() => {
-    const fetchPopularCamps = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/popular");
-        setCamps(response.data);
-      } catch (error) {
-        console.error("Error fetching popular camps", error);
-      }
-    };
-
-    fetchPopularCamps();
-  }, []);
-
-  if (!camps.length) return <div>Loading...</div>;
+  if (popularCampsLoading)
+    return (
+      <div className="h-screen flex items-center justify-center font-bold">
+        Loading Popular Camps...
+      </div>
+    );
+  if (popularCampsError)
+    return (
+      <div className="h-screen flex items-center justify-center font-bold">
+        Error While Loading Popular Camps...
+      </div>
+    );
 
   return (
     <div className="container mx-auto p-6">
@@ -26,7 +25,7 @@ const PopularCamps = () => {
         Popular Medical Camps
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {camps.map((camp) => (
+        {popularCamps.map((camp) => (
           <div
             key={camp._id}
             className="bg-gray-100 border border-gray-300 p-4 rounded-lg shadow-md"

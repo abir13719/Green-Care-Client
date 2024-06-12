@@ -15,6 +15,7 @@ import PaymentHistory from "../pages/Dashboard/UserPanel/PaymentHistory";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import PrivateRoutes from "./PrivateRoutes";
+import AdminRoutes from "./AdminRoutes";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "dashboard",
     element: (
@@ -58,19 +60,35 @@ const router = createBrowserRouter([
       // Admin Routes
       {
         path: "dashboard/manage-admin-profile",
-        element: <ManageAdminProfile></ManageAdminProfile>,
+        element: (
+          <AdminRoutes>
+            <ManageAdminProfile></ManageAdminProfile>
+          </AdminRoutes>
+        ),
       },
       {
         path: "dashboard/add-camp",
-        element: <AddCamp></AddCamp>,
+        element: (
+          <AdminRoutes>
+            <AddCamp></AddCamp>
+          </AdminRoutes>
+        ),
       },
       {
         path: "dashboard/manage-camps",
-        element: <ManageCamps></ManageCamps>,
+        element: (
+          <AdminRoutes>
+            <ManageCamps></ManageCamps>
+          </AdminRoutes>
+        ),
       },
       {
         path: "dashboard/manage-registered-camps",
-        element: <ManageRegisteredCamps></ManageRegisteredCamps>,
+        element: (
+          <AdminRoutes>
+            <ManageRegisteredCamps></ManageRegisteredCamps>
+          </AdminRoutes>
+        ),
       },
 
       // User Routes

@@ -1,13 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { HiUserCircle, HiMenu } from "react-icons/hi";
 import logo from "../assets/logo.webp";
-import {
-  FaCampground,
-  FaHome,
-  FaSignInAlt,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { FaCampground, FaHome, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { useAuth } from "../contexts/AuthContext";
 import useAdmin from "../hooks/useAdmin";
@@ -110,10 +105,7 @@ const Navbar = () => {
                 {user.photoURL ? (
                   <>
                     <div>
-                      <img
-                        className="h-12 w-12 rounded-full mt-1"
-                        src={user.photoURL}
-                      />
+                      <img className="h-12 w-12 rounded-full mt-1" src={user.photoURL} />
                     </div>
                   </>
                 ) : (
@@ -128,9 +120,7 @@ const Navbar = () => {
               >
                 <p className="text-lg text-white">{user?.displayName}</p>
                 <Link
-                  to={`dashboard/${
-                    isAdmin ? "dashboard/manage-camps" : "dashboard/analytics"
-                  }`}
+                  to={`dashboard/${isAdmin ? "dashboard/manage-camps" : "dashboard/analytics"}`}
                   className="bg-green-500 text-white w-full p-3 rounded-md flex items-center gap-1"
                 >
                   <MdDashboard></MdDashboard>
@@ -164,9 +154,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         ref={mobileMenuRef}
-        className={`sm:hidden ${
-          isMobileMenuOpen ? "block" : "hidden"
-        } bg-gray-800 p-4`}
+        className={`sm:hidden ${isMobileMenuOpen ? "block" : "hidden"} bg-gray-800 p-4`}
       >
         <ul>{navlinks}</ul>
       </div>
